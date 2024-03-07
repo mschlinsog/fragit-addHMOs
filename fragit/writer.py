@@ -19,7 +19,7 @@ class Standard(object):
         self._fragment_layers: List[int] = [1 for _ in fragmentation.get_fragments()]
         self._nlayers: int = 1
         self._boundaries = []
-        self._title = ""
+        self._title = "Data Title"
         self._active_fragments = []
         self._central_fragment = 0
         self._active_atoms_distance = 0.0
