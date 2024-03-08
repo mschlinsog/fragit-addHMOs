@@ -469,23 +469,34 @@ class GamessFMO(Standard):
             In multilayer cases where different basis sets are requested for each
             layer the basis set must be specified here.
         """
-        s = "{0:s}-{1:d} {2:d}\n".format(atom, layer, LABEL2Z[atom])
-        basis_sets = self._fragmentation.get_qm_basis()
-        nbas = len(basis_sets)
-        nlayers = self._nlayers
-
-        if nbas > 1 and nlayers > 1:
-            basis = basis_sets[layer - 1]
-            try:
-                basis_data = GAMESS_DATA_BASIS[basis]
-            except KeyError:
-                exit("Error: Basis set '{}' not defined. Aborting.".format(basis))
-            try:
-                _ = basis_data[atom]
-            except KeyError:
-                exit("Error: Basis set '{}' not defined for atom '{}'. Aborting.".format(basis, atom))
-
-            s += "  {0:s}\n\n".format(basis_data[atom])
+#
+# Adding an if/else block so that if you're not doing any multilayer calculations
+# the elements in $DATA don't have "-1" appended. Fixes a bug that caused my 
+# runs to crash with the error:
+#     "ERROR FOUND WHILE LOOKING FOR MAXANG FOR H-1"
+# I have no idea if this is a general problem or has to do with the options I 
+# used in my other input groups, but this works for me. 
+#
+        if layer == 1:
+            s = "{0:s} {1:d}\n".format(atom, LABEL2Z[atom])
+        else:
+            s = "{0:s}-{1:d} {2:d}\n".format(atom, layer, LABEL2Z[atom])
+            basis_sets = self._fragmentation.get_qm_basis()
+            nbas = len(basis_sets)
+            nlayers = self._nlayers
+    
+            if nbas > 1 and nlayers > 1:
+                basis = basis_sets[layer - 1]
+                try:
+                    basis_data = GAMESS_DATA_BASIS[basis]
+                except KeyError:
+                    exit("Error: Basis set '{}' not defined. Aborting.".format(basis))
+                try:
+                    _ = basis_data[atom]
+                except KeyError:
+                    exit("Error: Basis set '{}' not defined for atom '{}'. Aborting.".format(basis, atom))
+    
+                s += "  {0:s}\n\n".format(basis_data[atom])
 
         return s
 
