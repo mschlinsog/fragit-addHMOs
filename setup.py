@@ -59,7 +59,7 @@ def setup_fragit():
               [
                 'share/hmo/STO-3G', 'share/hmo/3-21G', 'share/hmo/6-31G',
                 'share/hmo/6-31G(d)', 'share/hmo/6-31G*', 'share/hmo/cc-pVDZ',
-                'share/hmo/pcseg-0', 'share/hmo/pcseg-1'
+                'share/hmo/pcseg-0', 'share/hmo/pcseg-1', 'share/hmo/DFTB-C'
               ]
             )
         ]

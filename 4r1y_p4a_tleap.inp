@@ -676,13 +676,13 @@
      -4548      4563 DFTB-C
  $END
  $DATA
-
+Data Title
 c1
-H-1 1
-C-1 6
-N-1 7
-O-1 8
-S-1 16
+H 1
+C 6
+N 7
+O 8
+S 16
  $END
  $FMOHYB
  DFTB-C 4 4
