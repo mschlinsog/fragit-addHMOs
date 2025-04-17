@@ -12,7 +12,7 @@ try:
 except ImportError:
     raise OBNotFoundException("OpenBabel not found. Please install OpenBabel to use FragIt.")
 
-from fragit.util import remove_duplicates, flatten, difference, uniqifyListOfLists, is_tuple_values_in_either_list, LABEL2Z
+from fragit.util import remove_duplicates, flatten, difference, uniqifyListOfLists, is_tuple_values_in_either_list, LABEL2Z, Z2LABEL
 from fragit.config import FragItConfig, FragItDataBase
 
 
@@ -580,7 +580,9 @@ class Fragmentation(FragItConfig):
         if len(atoms) == 1:
             atom = self.mol.GetAtom(atoms[0])
             charge_lbl = charge_lbls[atom.GetFormalCharge()]
-            element = LABEL2Z[atom.GetAtomicNum()]
+#            print(self.mol)
+#            element = LABEL2Z[atom.GetAtomicNum()]
+            element = Z2LABEL[atom.GetAtomicNum()]
             return "{0:s}{1:s}".format(element, charge_lbl)
         else:
             for residue in openbabel.OBResidueIter(self.mol):
