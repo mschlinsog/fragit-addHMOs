@@ -186,6 +186,7 @@ class Fragmentation(FragItConfig):
             value.sort()
             self._mergeable_atoms.extend(value)
 
+#----PX TODO
     def do_fragment_merging(self):
         fragments_to_merge = self.get_fragments_to_merge()
         if len(fragments_to_merge) == 0:
