@@ -97,6 +97,7 @@ class Fragmentation(FragItConfig):
                 break
             for i in range(1, self.mol.NumAtoms()+1):
                 atom = self.mol.GetAtom(i)
+#---PX: add Cl
                 if atom.GetAtomicNum() in [1, 6, 7, 8, 9, 12, 15, 16, 17]:
                     if atom not in self._atoms:
                         self._atoms.append(atom)
@@ -108,6 +109,7 @@ class Fragmentation(FragItConfig):
                     atomic_charge = 0  # default
                     if atom.GetAtomicNum() in [11, 19]:  # Na+ and K+:
                         atomic_charge = 1
+#---PX comment out the next 2 lines
 #                    elif atom.GetAtomicNum() in [9, 17]:  # F- and Cl-
 #                        atomic_charge = -1
 
