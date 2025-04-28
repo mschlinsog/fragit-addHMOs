@@ -97,7 +97,7 @@ class Fragmentation(FragItConfig):
                 break
             for i in range(1, self.mol.NumAtoms()+1):
                 atom = self.mol.GetAtom(i)
-                if atom.GetAtomicNum() in [1, 6, 7, 8, 9, 12, 15, 16]:
+                if atom.GetAtomicNum() in [1, 6, 7, 8, 9, 12, 15, 16, 17]:
                     if atom not in self._atoms:
                         self._atoms.append(atom)
                     added += 1
@@ -108,8 +108,8 @@ class Fragmentation(FragItConfig):
                     atomic_charge = 0  # default
                     if atom.GetAtomicNum() in [11, 19]:  # Na+ and K+:
                         atomic_charge = 1
-                    elif atom.GetAtomicNum() in [9, 17]:  # F- and Cl-
-                        atomic_charge = -1
+#                    elif atom.GetAtomicNum() in [9, 17]:  # F- and Cl-
+#                        atomic_charge = -1
 
                     new_atom = openbabel.OBAtom()
                     new_atom.Duplicate(atom)
@@ -411,9 +411,16 @@ class Fragmentation(FragItConfig):
     def find_remaining_fragments(self):
         remaining_atoms = difference(list(range(1, self.mol.NumAtoms() + 1)), flatten(self._fragments))
         while len(remaining_atoms) > 0:
-            newfrag = self.get_atoms_in_same_fragment(remaining_atoms[0])
-            remaining_atoms = difference(remaining_atoms, newfrag)
-            self._fragments.append(newfrag)
+            print("remaining atoms:", remaining_atoms)
+            print("length of remaining atoms:", len(remaining_atoms))
+#            newfrag = self.get_atoms_in_same_fragment(remaining_atoms[0])
+#            print("new frag:", newfrag)
+#            remaining_atoms = difference(remaining_atoms, newfrag)
+#            self._fragments.append(newfrag)
+            fragment = [value for value in remaining_atoms]
+            print("fragment:", fragment)
+            remaining_atoms = difference(remaining_atoms, fragment)
+            self._fragments.append(fragment)
 
     def do_sanity_check_on_fragments(self):
         """ Performs some level of sanity check on the generated fragments. """
@@ -547,9 +554,14 @@ class Fragmentation(FragItConfig):
         if a2 != 0:
             raise ValueError
         tmp = openbabel.vectorInt()
+#        print("tmp:", tmp)
+#        print("a1:", a1)
+#        print("a2:", a2)
         self.mol.FindChildren(tmp, a2, a1)
 
+#        print("mol:", self.mol.FindChildren(tmp, a2, a1))
         fragment = [value for value in tmp] + [a1]
+#        print("fragment:", fragment)
         return sorted(fragment)
 
     def get_ob_atom(self, atom_index: int) -> openbabel.OBAtom:
