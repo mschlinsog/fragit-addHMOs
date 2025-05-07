@@ -194,6 +194,8 @@ class Fragmentation(FragItConfig):
         fragments = self.get_fragments()
         fragments_to_merge.reverse()
         for fragment_id in fragments_to_merge:
+            if fragment_id == 0:
+                continue
             previous_fragment = fragment_id-1
             ifrag = fragments.pop(fragment_id)
             jfrag = fragments[previous_fragment].extend(ifrag)
@@ -414,14 +416,10 @@ class Fragmentation(FragItConfig):
     def find_remaining_fragments(self):
         remaining_atoms = difference(list(range(1, self.mol.NumAtoms() + 1)), flatten(self._fragments))
         while len(remaining_atoms) > 0:
-            print("remaining atoms:", remaining_atoms)
-            print("length of remaining atoms:", len(remaining_atoms))
 #            newfrag = self.get_atoms_in_same_fragment(remaining_atoms[0])
-#            print("new frag:", newfrag)
 #            remaining_atoms = difference(remaining_atoms, newfrag)
 #            self._fragments.append(newfrag)
             fragment = [value for value in remaining_atoms]
-            print("fragment:", fragment)
             remaining_atoms = difference(remaining_atoms, fragment)
             self._fragments.append(fragment)
 
