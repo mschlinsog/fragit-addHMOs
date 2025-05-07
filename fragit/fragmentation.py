@@ -186,17 +186,32 @@ class Fragmentation(FragItConfig):
             value.sort()
             self._mergeable_atoms.extend(value)
 
-#----PX TODO
+#----PX: instead of merging with the previous fragment
+#        merge with the next fragment to avoid the case
+#        when the glycine to be merged is to be merged. 
     def do_fragment_merging(self):
         fragments_to_merge = self.get_fragments_to_merge()
         if len(fragments_to_merge) == 0:
             return
         fragments = self.get_fragments()
+        #----PX debug
+        #print('before reverse',fragments_to_merge)
         fragments_to_merge.reverse()
+        #print('after reverse',fragments_to_merge)
+
         for fragment_id in fragments_to_merge:
+            #print('fragment id to merge',fragment_id)
+            if fragment_id == 0:
+                continue
             previous_fragment = fragment_id-1
+            #next_fragment = fragment_id + 1
+            #print('previous and next fragments',previous_fragment,next_fragment)
             ifrag = fragments.pop(fragment_id)
+            #print('ifrag (after pop)',ifrag)
             jfrag = fragments[previous_fragment].extend(ifrag)
+            #print('number of elements in fragments list',len(fragments))
+            ##jfrag = fragments[next_fragment].extend(ifrag)
+            #print('jfrag (after extend)',jfrag)
 
         self._fragments = fragments[:]
         self._clean_merged_bonds()
