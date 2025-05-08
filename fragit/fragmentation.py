@@ -186,9 +186,6 @@ class Fragmentation(FragItConfig):
             value.sort()
             self._mergeable_atoms.extend(value)
 
-#----PX: instead of merging with the previous fragment
-#        merge with the next fragment to avoid the case
-#        when the glycine to be merged is to be merged. 
     def do_fragment_merging(self):
         fragments_to_merge = self.get_fragments_to_merge()
         if len(fragments_to_merge) == 0:
