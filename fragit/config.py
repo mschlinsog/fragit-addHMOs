@@ -334,7 +334,6 @@ class FragItConfig(object):
         values = self.values["explicitprotectatoms"]["atomids"]
         if len(values) > 0:
             list_of_ids = values.split(",")
-#            print("atomids =")
             return list(map(int, list_of_ids))
         return []
 

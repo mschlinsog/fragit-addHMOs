@@ -97,7 +97,6 @@ class Fragmentation(FragItConfig):
                 break
             for i in range(1, self.mol.NumAtoms()+1):
                 atom = self.mol.GetAtom(i)
-#---PX: add Cl
                 if atom.GetAtomicNum() in [1, 6, 7, 8, 9, 12, 15, 16, 17]:
                     if atom not in self._atoms:
                         self._atoms.append(atom)
@@ -109,7 +108,6 @@ class Fragmentation(FragItConfig):
                     atomic_charge = 0  # default
                     if atom.GetAtomicNum() in [11, 19]:  # Na+ and K+:
                         atomic_charge = 1
-#---PX comment out the next 2 lines
 #                    elif atom.GetAtomicNum() in [9, 17]:  # F- and Cl-
 #                        atomic_charge = -1
 
@@ -186,7 +184,6 @@ class Fragmentation(FragItConfig):
             value.sort()
             self._mergeable_atoms.extend(value)
 
-#----PX TODO
     def do_fragment_merging(self):
         fragments_to_merge = self.get_fragments_to_merge()
         if len(fragments_to_merge) == 0:
@@ -555,14 +552,8 @@ class Fragmentation(FragItConfig):
         if a2 != 0:
             raise ValueError
         tmp = openbabel.vectorInt()
-#        print("tmp:", tmp)
-#        print("a1:", a1)
-#        print("a2:", a2)
         self.mol.FindChildren(tmp, a2, a1)
-
-#        print("mol:", self.mol.FindChildren(tmp, a2, a1))
         fragment = [value for value in tmp] + [a1]
-#        print("fragment:", fragment)
         return sorted(fragment)
 
     def get_ob_atom(self, atom_index: int) -> openbabel.OBAtom:
@@ -593,8 +584,6 @@ class Fragmentation(FragItConfig):
         if len(atoms) == 1:
             atom = self.mol.GetAtom(atoms[0])
             charge_lbl = charge_lbls[atom.GetFormalCharge()]
-#            print(self.mol)
-#            element = LABEL2Z[atom.GetAtomicNum()]
             element = Z2LABEL[atom.GetAtomicNum()]
             return "{0:s}{1:s}".format(element, charge_lbl)
         else:
