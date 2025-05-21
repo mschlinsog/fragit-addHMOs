@@ -276,17 +276,13 @@ class GamessFMO(Standard):
                 return True
         return False
 
-#---PX add three function calls to write PCM inputs
     def write_file(self, filename):
-        out_string_template = "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s"
+        out_string_template = "%s%s%s%s%s%s%s%s%s%s%s%s%s"
         out_string = out_string_template % (self.write_gamess_system_group(),
                                             self.write_gamess_gddi_group(),
                                             self.write_gamess_scf_group(),
                                             self.write_gamess_contrl_group(),
                                             self.write_gamess_basis_group(),
-                                            self.write_gamess_pcm_group(),
-                                            self.write_gamess_pcmcav_group(),
-                                            self.write_gamess_tescav_group(),
                                             self.write_fmo_fmoprp_group(),
                                             self.write_fmo_fmo_group(),
                                             self.write_fmo_fmobnd_group(),
@@ -329,20 +325,20 @@ class GamessFMO(Standard):
     def write_gamess_gddi_group() -> str:
         return " $GDDI NGROUP=1 $END\n"
 
-#----PX: 3 static methods to print PCM related groups
-    @staticmethod
-    def write_gamess_pcm_group() -> str:
-        return " $PCM MODPAR=2 SOLVNT=WATER IEF=-10 ICOMP=0 ICAV=0 IDISP=0 IFMO=-1 $END\n"
-    
-    @staticmethod
-    def write_gamess_pcmcav_group() -> str:
-        return " $PCMCAV RADII=SUAHF $END\n"
-    
-    @staticmethod
-    def write_gamess_tescav_group() -> str:
-        return " $TESCAV NTSALL=60 $END\n"
-    
-#----END PX
+###----PX: 3 static methods to print PCM related groups
+##    @staticmethod
+##    def write_gamess_pcm_group() -> str:
+##        return " $PCM MODPAR=2 SOLVNT=WATER IEF=-10 ICOMP=0 ICAV=0 IDISP=0 IFMO=-1 $END\n"
+##    
+##    @staticmethod
+##    def write_gamess_pcmcav_group() -> str:
+##        return " $PCMCAV RADII=SUAHF $END\n"
+##    
+##    @staticmethod
+##    def write_gamess_tescav_group() -> str:
+##        return " $TESCAV NTSALL=60 $END\n"
+##    
+###----END PX
     def write_fmo_fmoprp_group(self) -> str:
         return " $FMOPRP NPRINT=9 NGUESS=%i $END\n" % self.calculate_fmo_nguess()
 
