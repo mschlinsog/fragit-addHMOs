@@ -413,12 +413,19 @@ class Fragmentation(FragItConfig):
     def find_remaining_fragments(self):
         remaining_atoms = difference(list(range(1, self.mol.NumAtoms() + 1)), flatten(self._fragments))
         while len(remaining_atoms) > 0:
-#            newfrag = self.get_atoms_in_same_fragment(remaining_atoms[0])
-#            remaining_atoms = difference(remaining_atoms, newfrag)
-#            self._fragments.append(newfrag)
-            fragment = [value for value in remaining_atoms]
-            remaining_atoms = difference(remaining_atoms, fragment)
-            self._fragments.append(fragment)
+#
+# Original:
+#
+            newfrag = self.get_atoms_in_same_fragment(remaining_atoms[0])
+            remaining_atoms = difference(remaining_atoms, newfrag)
+            self._fragments.append(newfrag)
+#
+# My edits for when it was breaking things weirdly,
+# but actually causes issues sometimes too
+#
+#            fragment = [value for value in remaining_atoms]
+#            remaining_atoms = difference(remaining_atoms, fragment)
+#            self._fragments.append(fragment)
 
     def do_sanity_check_on_fragments(self):
         """ Performs some level of sanity check on the generated fragments. """
